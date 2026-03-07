@@ -1,0 +1,650 @@
+﻿@page
+@model WebApplication1.Pages.ProductClient.IndexModel
+@{
+    ViewData["Title"] = "Boutique Premium";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+    /* ================================
+       🎨 PALETTE MODERNE E-COMMERCE
+    ================================ */
+    :root {
+        --primary: #2563eb;
+        --secondary: #9333ea;
+        --accent: #f59e0b;
+        --success: #10b981;
+        --dark: #0f172a;
+        --light: #f8fafc;
+        --glass: rgba(255, 255, 255, 0.75);
+        --border-soft: rgba(255,255,255,0.4);
+    }
+
+    /* ================================
+       🌍 GLOBAL
+    ================================ */
+    body {
+        background: radial-gradient(circle at top left, #eef2ff, transparent 40%), radial-gradient(circle at bottom right, #fdf2f8, transparent 40%), linear-gradient(to bottom, #f8fafc, #e5e7eb);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        color: var(--dark);
+    }
+
+    /* ================================
+       🏷️ CATEGORIES
+    ================================ */
+    .category-pill {
+        border-radius: 999px;
+        padding: 14px 28px;
+        background: white;
+        border: 1px solid #e5e7eb;
+        font-weight: 700;
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.35s ease;
+    }
+
+        .category-pill:hover,
+        .category-pill.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
+        }
+
+    /* ================================
+       📦 CARTES PRODUITS
+    ================================ */
+    .product-card {
+        border-radius: 28px;
+        background: white;
+        border: 1px solid #e5e7eb;
+        overflow: hidden;
+        transition: all 0.4s ease;
+    }
+
+        .product-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 35px 70px rgba(15, 23, 42, 0.18);
+        }
+
+    /* ================================
+       🖼️ IMAGE PRODUIT
+    ================================ */
+    .img-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .product-img {
+        height: 250px;
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.8s ease;
+    }
+
+    .product-card:hover .product-img {
+        transform: scale(1.1);
+    }
+
+    /* Badge marketing */
+    .img-container::after {
+        content: "Top Vente";
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: linear-gradient(135deg, var(--accent), #f97316);
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 800;
+        padding: 6px 12px;
+        border-radius: 999px;
+    }
+
+    /* ================================
+       💰 PRIX
+    ================================ */
+    .price-tag {
+        background: linear-gradient(135deg, var(--success), #059669);
+        padding: 6px 16px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        font-weight: 900;
+        color: white;
+        box-shadow: 0 6px 15px rgba(16, 185, 129, 0.35);
+    }
+
+    /* ================================
+       🛒 BOUTONS
+    ================================ */
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border: none;
+        font-weight: 800;
+        letter-spacing: 0.3px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.45);
+        }
+
+    /* ================================
+       🛍️ PANIER FLOTTANT
+    ================================ */
+    .cart-float {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        background: linear-gradient(135deg, var(--dark), #020617);
+        color: white;
+        padding: 18px 30px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 800;
+        z-index: 999;
+        transition: all 0.3s ease;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+    }
+
+        .cart-float:hover {
+            transform: scale(1.08);
+        }
+
+    /* ================================
+       🤖 CHAT IA
+    ================================ */
+    #chat-wrapper {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+    }
+
+    #chat-button {
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        cursor: pointer;
+        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+    }
+
+    #chat-window {
+        width: 380px;
+        height: 550px;
+        background: white;
+        border-radius: 30px;
+        box-shadow: 0 30px 80px rgba(15, 23, 42, 0.25);
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .chat-header {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .messages-container {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        background: #f8fafc;
+    }
+
+    .bubble-ai {
+        background: white;
+        padding: 12px 16px;
+        border-radius: 18px 18px 18px 4px;
+        border-left: 4px solid var(--primary);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        margin-bottom: 15px;
+        font-size: 0.95rem;
+        animation: fadeInUp 0.4s ease;
+    }
+
+    .chat-input-area {
+        padding: 15px;
+        background: white;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 10px;
+    }
+
+        .chat-input-area input {
+            flex: 1;
+            border: none;
+            background: #f1f5f9;
+            padding: 10px 15px;
+            border-radius: 12px;
+            outline: none;
+        }
+
+    /* ================================
+       🤖 CHAT POSITION PRO & RESPONSIVE
+    ================================ */
+    #chat-wrapper {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 15px;
+        z-index: 2000;
+    }
+
+    /* Fenêtre au-dessus du bouton */
+    #chat-window {
+        width: 360px;
+        height: 520px;
+    }
+
+    /* Mobile adaptation */
+    @@media (max-width: 576px) {
+        #chat-window {
+            width: calc(100vw - 30px);
+            height: 75vh;
+            border-radius: 20px;
+        }
+
+        #chat-wrapper {
+            right: 15px;
+            left: 15px;
+            align-items: center;
+        }
+
+        #chat-button {
+            align-self: flex-end;
+        }
+    }
+
+    /* ================================
+       🔐 TRUST BAR (E-COMMERCE)
+    ================================ */
+    .trust-bar {
+        margin-top: 25px;
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        flex-wrap: wrap;
+    }
+
+    .trust-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 22px;
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--dark);
+        border: 1px solid #e5e7eb;
+        backdrop-filter: blur(6px);
+        transition: all 0.35s ease;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+        .trust-item i {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        /* Hover premium */
+        .trust-item:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.45);
+        }
+
+            .trust-item:hover i {
+                color: white;
+            }
+
+    /* Mobile */
+    @@media (max-width: 576px) {
+        .trust-bar {
+            gap: 15px;
+        }
+
+        .trust-item {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    /* ================================
+       🏆 HERO TITLE – E-COMMERCE
+    ================================ */
+    .hero-title {
+        text-align: center;
+        margin-bottom: 4rem;
+        position: relative;
+    }
+
+        .hero-title h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            color: var(--dark);
+        }
+
+            .hero-title h1 span {
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+        .hero-title p {
+            margin-top: 18px;
+            font-size: 1.15rem;
+            color: #64748b;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Decorative glow */
+        .hero-title::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -18px;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0.8;
+        }
+
+    /* Subtle animation */
+    .hero-title {
+        animation: heroFade 0.8s ease;
+    }
+
+    .hero-badges {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 25px;
+        color: #64748b;
+        font-weight: 600;
+    }
+
+        .hero-badges i {
+            color: var(--primary);
+            margin-right: 6px;
+        }
+
+
+    @@keyframes heroFade {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
+    /* ================================
+       🎬 ANIMATIONS
+    ================================ */
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+@* 
+ /* chat boot*/
+ *@
+<!-- =========================
+     🤖 CHAT ASSISTANT WRAPPER
+========================= -->
+<div id="chat-wrapper">
+
+    <!-- Fenêtre du chat -->
+    <div id="chat-window" class="animate__animated">
+        <div class="chat-header">
+            <div class="bg-white text-primary rounded-circle p-2">
+                <i class="fa-solid fa-robot fa-lg"></i>
+            </div>
+            <div>
+                <h6 class="m-0 fw-bold">Assistant IA</h6>
+                <small class="opacity-75">En ligne</small>
+            </div>
+            <button class="btn-close btn-close-white ms-auto" onclick="toggleChat()"></button>
+        </div>
+
+        <div class="messages-container" id="chatMessages">
+            <div class="bubble-ai">
+                👋 Bonjour ! Je suis votre conseiller personnel. Comment puis-je vous aider ?
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Response))
+            {
+                <div class="bubble-ai animate__animated animate__fadeInLeft">
+                    @Model.Response
+                </div>
+            }
+            @* Insérez ce bloc après l'affichage de `Model.Response` dans la page pour montrer les données structurées extraites (confidence, total_panier, recommended_products, sources). *@
+
+            @if (Model.ParsedStructuredData is not null)
+            {
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">Résumé (données structurées)</h5>
+
+                        @if (!string.IsNullOrEmpty(Model.ParsedStructuredData.Confidence))
+                        {
+                            <p>
+                                <strong>Confiance :</strong>
+                                <span class="badge bg-info text-dark">@Model.ParsedStructuredData.Confidence</span>
+                            </p>
+                        }
+
+                        @if (Model.ParsedStructuredData.TotalPanier is not null)
+                        {
+                            <p><strong>Total panier (estimé) :</strong> @Model.ParsedStructuredData.TotalPanier.Value.ToString("0.##") DH</p>
+                        }
+
+                        @if (Model.ParsedStructuredData.RecommendedProducts?.Any() == true)
+                        {
+                            <p><strong>Produits recommandés :</strong></p>
+                            <ul class="mb-2">
+                                @foreach (var pid in Model.ParsedStructuredData.RecommendedProducts)
+                                {
+                                    <li>
+                                        <a class="text-decoration-none" href="@($"/ProductClient/Details?id={pid}")">
+                                            @pid
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+
+                        @if (Model.ParsedStructuredData.Sources?.Any() == true)
+                        {
+                            <p><strong>Sources utilisées :</strong></p>
+                            <ul class="mb-0">
+                                @foreach (var s in Model.ParsedStructuredData.Sources)
+                                {
+                                    var url = s.Contains("/ProductClient/Details") ? s : s;
+                                    <li>
+                                        @if (url.StartsWith("/"))
+                                        {
+                                            <a class="text-decoration-none" href="@url">@s</a>
+                                        }
+                                        else
+                                        {
+                                            <span>@s</span>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <form method="post" asp-page-handler="Ask" class="chat-input-area">
+            <input name="Question" placeholder="Posez votre question..." required autocomplete="off" />
+            <button type="submit" class="btn btn-primary rounded-circle">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Bouton flottant -->
+    <div id="chat-button" onclick="toggleChat()">
+        <i class="fa-solid fa-comment-dots"></i>
+    </div>
+
+</div>
+
+@* container for magasin *@
+<div class="container py-5">
+    <div class="hero-title animate__animated animate__fadeInDown">
+        <h1>
+            Boutique <span>Premium</span>
+        </h1>
+        <p>
+            Une sélection rigoureuse de produits technologiques fiables,
+            pensés pour la performance, la sécurité et la satisfaction client.
+        </p>
+
+        <div class="hero-badges">
+            <span><i class="fa-solid fa-shield-check"></i>Paiement 100% sécurisé</span>
+            <span><i class="fa-solid fa-truck-fast"></i>Livraison rapide & suivie</span>
+            <span><i class="fa-solid fa-certificate"></i>Produits certifiés</span>
+        </div>
+    </div>
+
+
+
+    @* Paiement securisé || livraison ||  Produit certifié
+    <div class="trust-bar">
+        <div class="trust-item">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Paiement sécurisé</span>
+        </div>
+
+        <div class="trust-item">
+            <i class="fa-solid fa-truck-fast"></i>
+            <span>Livraison rapide</span>
+        </div>
+
+        <div class="trust-item">
+            <i class="fa-solid fa-star"></i>
+            <span>Produits certifiés</span>
+        </div>
+    </div> *@
+
+
+    <div class="d-flex flex-wrap justify-content-center gap-3 mb-5 animate__animated animate__fadeInUp">
+        <a asp-page="./Index" class="category-pill text-decoration-none">
+            <i class="fa-solid fa-border-all me-2"></i>Tout voir
+        </a>
+        @foreach (var cat in Model.Categories)
+        {
+            <a asp-page="./Index" asp-route-categoryId="@cat.Id" class="category-pill text-decoration-none">
+                <i class="fa-solid fa-tag me-2"></i>@cat.Name
+            </a>
+        }
+    </div>
+
+    <div class="row g-4">
+        @foreach (var p in Model.Products)
+        {
+            <div class="col-lg-4 col-md-6 animate__animated animate__zoomIn">
+                <div class="card product-card h-100">
+                    <div class="img-container">+
+                        <img src="@p.ImageUrl" class="product-img w-100">
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="fw-bold m-0">@p.Name</h5>
+                            <span class="price-tag">@p.Price MAD</span>
+                        </div>
+                        <p class="text-muted small mb-4">@p.Description</p>
+
+                        <form method="post" asp-page-handler="AddToCart" class="d-flex gap-2">
+                            <input type="hidden" name="ProductId" value="@p.Id" />
+                            <input type="number" name="Quantity" value="1" min="1" class="form-control w-25 shadow-sm border-0 bg-light text-center" />
+                            <button class="btn btn-primary w-75 rounded-3 fw-bold shadow-sm">
+                                <i class="fa-solid fa-cart-plus me-2"></i>Ajouter
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<a asp-page="/Cart/Index" class="cart-float animate__animated animate__bounceInLeft">
+    <i class="fa-solid fa-bag-shopping me-2"></i>
+    Panier <span class="badge bg-danger ms-2">@Model.CartCount</span>
+</a>
+
+
+@section Scripts {
+    <script>
+        function toggleChat() {
+            const chatWin = document.getElementById('chat-window');
+
+            if (chatWin.style.display === 'flex') {
+                chatWin.classList.remove('animate__slideInUp');
+                chatWin.classList.add('animate__fadeOutDown');
+                setTimeout(() => chatWin.style.display = 'none', 300);
+            } else {
+                chatWin.style.display = 'flex';
+                chatWin.classList.remove('animate__fadeOutDown');
+                chatWin.classList.add('animate__slideInUp');
+            }
+        }
+
+        // Garder le chat ouvert si une réponse vient de l'IA
+        @if (!string.IsNullOrEmpty(Model.Response))
+        {
+                <text>
+                document.getElementById('chat-window').style.display = 'flex';
+                const objDiv = document.getElementById("chatMessages");
+                objDiv.scrollTop = objDiv.scrollHeight;
+                </text>
+        }
+    </script>
+}

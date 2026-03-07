@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication1</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+    <style>
+        /* ================================
+               HEADER E-COMMERCE
+               ================================ */
+
+        .shop-header {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            padding: 16px 0;
+            box-shadow: 0 6px 20px rgba(0,0,0,.25);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Logo */
+        .logo a {
+            font-size: 26px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation */
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+            .nav-links a {
+                color: #e5e7eb;
+                text-decoration: none;
+                font-weight: 600;
+                position: relative;
+                transition: color .3s;
+            }
+
+                .nav-links a:hover {
+                    color: #22c55e;
+                }
+
+        /* Panier */
+        .cart-link {
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -14px;
+            background: #22c55e;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 7px;
+            border-radius: 50%;
+        }
+
+        /* Actions */
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-login {
+            background: #22c55e;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all .3s ease;
+        }
+
+            .btn-login:hover {
+                background: #16a34a;
+                transform: translateY(-2px);
+            }
+
+        }
+    </style>
+</head>
+<body>
+
+    <header class="shop-header">
+        <div class="header-container">
+
+            <!-- Logo -->
+            <div class="logo">
+                <a asp-page="/ProductClient/Index">🛍️ shop</a>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="nav-links">
+                <a asp-page="/ProductClient/Index">Accueil</a>
+                @* <a asp-page="/Products/Index">Produits</a>
+                <a asp-page="/Cart/Index" class="cart-link">
+                    Panier
+                    <span class="cart-count">@ViewBag.CartCount</span>
+                </a> *@
+            </nav>
+
+            <!-- Actions -->
+            @* <div class="header-actions">
+                <a asp-page="/Account/Login" class="btn-login">Connexion</a>
+            </div> *@
+
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - WebApplication1 - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
