@@ -1,0 +1,241 @@
+﻿@page
+@model WebApplication1.Pages.Cart.IndexModel
+@{
+    ViewData["Title"] = "Mon Panier";
+}
+
+<style>
+    /* ================================
+           PANIER - STYLE PROFESSIONNEL
+           ================================ */
+    body {
+        background-color: #f5f7fb;
+    }
+
+    .title {
+        font-size: 32px;
+        font-weight: 700;
+        margin: 30px 0 20px;
+        color: #1f2937;
+    }
+
+    .alert-success {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: white;
+        padding: 14px 18px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-weight: 600;
+        box-shadow: 0 6px 16px rgba(34,197,94,.25);
+    }
+
+    .empty {
+        font-size: 18px;
+        color: #6b7280;
+        padding: 40px;
+        background: white;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0,0,0,.06);
+    }
+
+    .cart-table {
+        width: 100%;
+        background: white;
+        border-radius: 14px;
+        overflow: hidden;
+        border-collapse: collapse;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+
+        .cart-table thead {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            color: white;
+        }
+
+        .cart-table th, .cart-table td {
+            padding: 16px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .cart-table tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+            .cart-table tbody tr:hover {
+                background-color: #f9fafb;
+            }
+
+    .total-box {
+        margin-top: 25px;
+        padding: 20px;
+        background: white;
+        border-radius: 14px;
+        font-size: 22px;
+        font-weight: 700;
+        color: #111827;
+        box-shadow: 0 8px 24px rgba(0,0,0,.08);
+        text-align: right;
+    }
+
+    .actions {
+        margin-top: 25px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    button, .btn-update {
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all .25s ease;
+        padding: 8px 14px;
+    }
+
+    .btn-delete {
+        background: #ef4444;
+        color: white;
+    }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+        }
+
+    .btn-update {
+        background: #3b82f6;
+        color: white;
+    }
+
+        .btn-update:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+
+    .btn-clear {
+        background: #374151;
+        color: white;
+        padding: 12px 18px;
+    }
+
+        .btn-clear:hover {
+            background: #111827;
+        }
+
+    .btn-pay {
+        background: linear-gradient(135deg, #22c55e, #15803d);
+        color: white;
+        padding: 12px 22px;
+        font-size: 16px;
+    }
+
+        .btn-pay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(34,197,94,.35);
+        }
+
+    .btn-continue {
+        background: linear-gradient(135deg, #255983, #585698);
+        color: white;
+        padding: 12px 22px;
+        font-size: 16px;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+
+        .btn-continue:hover {
+            transform: translateY(-2px);
+        }
+
+    /* Input quantité */
+    .quantity-input {
+        width: 70px;
+        padding: 8px;
+        text-align: center;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+</style>
+
+<h2 class="title">🛒 Mon Panier</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert-success">@TempData["Success"]</div>
+}
+
+@if (!Model.Cart.Any())
+{
+    <p class="empty">Votre panier est vide.</p>
+    <div class="actions">
+        <a asp-page="../ProductClient/Index" class="btn-continue">Continuer mes achats</a>
+    </div>
+}
+else
+{
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Prix unitaire</th>
+                <th>Quantité</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Cart.Values)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.PriceAtAddTime.ToString("F2") DH</td>
+                    <td>
+                        <form method="post" asp-page-handler="UpdateQuantity" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.ProductId" />
+                            <input type="number"
+                                   name="quantity"
+                                   value="@item.Quantity"
+                                   min="1"
+                                   class="quantity-input"
+                                   style="width:80px;" />
+                            <button type="submit" class="btn-update">🔄</button>
+                        </form>
+                    </td>
+                    <td>@((item.PriceAtAddTime * item.Quantity).ToString("F2")) DH</td>
+                    <td>
+                        <form method="post" asp-page-handler="Remove" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.ProductId" />
+                            <button type="submit" class="btn-delete" onclick="return confirm('Supprimer cet article ?')">❌</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="total-box">
+        <strong>Total général :</strong> @Model.Total.ToString("F2") DH
+    </div>
+
+    <div class="actions">
+        <a asp-page="../ProductClient/Index" class="btn-continue">Continuer mes achats</a>
+
+        <form method="post" asp-page-handler="Clear" style="display:inline;">
+            <button type="submit" class="btn-clear" onclick="return confirm('Vider entièrement le panier ?')">
+                🗑️ Vider le panier
+            </button>
+        </form>
+
+        <form method="post" asp-page-handler="Pay" style="display:inline;">
+            <button type="submit" class="btn-pay" onclick="return confirm('Confirmer le paiement ?')">
+                💳 Payer maintenant
+            </button>
+        </form>
+    </div>
+}
