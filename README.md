@@ -11,13 +11,6 @@ A modern **AI-powered e-commerce platform** built with **ASP.NET Core (.NET 8)**
 This project demonstrates the integration of **modern .NET backend architecture**, **distributed caching**, and **LLM-powered AI** to build an intelligent e-commerce experience.
 
 ---
-![.NET](https://img.shields.io/badge/.NET-8-purple)
-![Redis](https://img.shields.io/badge/Redis-Cache-red)
-![AI](https://img.shields.io/badge/AI-RAG-green)
-![LLM](https://img.shields.io/badge/LLM-HuggingFace-yellow)
-![Architecture](https://img.shields.io/badge/Architecture-Clean-orange)
-
----
 
 # 🧠 AI Assistant with RAG
 
