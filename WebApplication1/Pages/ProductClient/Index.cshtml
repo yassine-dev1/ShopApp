@@ -605,6 +605,9 @@
                             <input type="hidden" name="ProductId" value="@p.Id" />
                             <input type="number" name="Quantity" value="1" min="1" class="form-control w-25 shadow-sm border-0 bg-light text-center" />
                             <button class="btn btn-primary w-75 rounded-3 fw-bold shadow-sm">
+                                <i class="fa-solid fa-cart-show me-2"></i><a  style="color:white ; text-decoration:none"asp-page="./Details" asp-route-id="@p.Id">Details</a>
+                            </button>
+                            <button class="btn btn-primary w-75 rounded-3 fw-bold shadow-sm">
                                 <i class="fa-solid fa-cart-plus me-2"></i>Ajouter
                             </button>
                         </form>

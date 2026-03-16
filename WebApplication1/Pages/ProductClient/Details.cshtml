@@ -5,57 +5,95 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container mt-5 mb-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-page="./Index" class="text-decoration-none text-muted">Boutique</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Product.Category.Name</li>
+        </ol>
+    </nav>
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Price)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.QuantityInStock)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.QuantityInStock)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Category)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Category.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.IsActive)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.IsActive)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.ImageUrl)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.ImageUrl)
-        </dd>
-    </dl>
+    <div class="card shadow-sm border-0 overflow-hidden" style="border-radius: 20px;">
+        <div class="row g-0">
+            <div class="col-md-6 bg-light d-flex align-items-center justify-content-center p-4">
+                <img src="@Model.Product.ImageUrl"
+                     alt="@Model.Product.Name"
+                     class="img-fluid rounded shadow-sm"
+                     style="max-height: 500px; object-fit: contain;">
+            </div>
+
+            <div class="col-md-6">
+                <div class="card-body p-5">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge bg-soft-primary text-primary px-3 py-2 rounded-pill shadow-sm"
+                              style="background-color: #e7f1ff; color: #6f42c1 !important;">
+                            @Model.Product.Category.Name
+                        </span>
+                        @if (Model.Product.IsActive)
+                        {
+                            <span class="text-success small"><i class="bi bi-check-circle-fill"></i> En stock</span>
+                        }
+                    </div>
+
+                    <h1 class="display-5 fw-bold mb-3" style="color: #333;">@Model.Product.Name</h1>
+
+                    <div class="d-flex align-items-center mb-4">
+                        <h2 class="text-primary fw-bold m-0" style="color: #00b894 !important;">
+                            @Model.Product.Price.ToString("N2") MAD
+                        </h2>
+                    </div>
+
+                    <hr class="text-muted opacity-25">
+
+                    <p class="text-muted lh-lg mb-4" style="font-size: 1.1rem;">
+                        @Model.Product.Description
+                    </p>
+
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <label class="text-uppercase small fw-bold text-muted d-block">Quantité disponible</label>
+                            <span class="badge bg-light text-dark border p-2 mt-1">@Model.Product.QuantityInStock unités</span>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex mt-5">
+                        @* <button class="btn btn-primary btn-lg px-5 py-3 shadow border-0"
+                                style="background: #6f42c1; border-radius: 12px;">
+                            <i class="bi bi-cart-plus-fill me-2"></i> Ajouter au panier
+                        </button> *@
+                        @* <a asp-page="./Edit" asp-route-id="@Model.Product.Id"
+                           class="btn btn-outline-secondary btn-lg px-4 d-flex align-items-center justify-content-center"
+                           style="border-radius: 12px;">
+                            Modifier
+                        </a> *@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-page="./Index" class="text-decoration-none text-muted">
+            <i class="bi bi-arrow-left"></i> Retour à la liste des produits
+        </a>
+    </div>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Product.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: ">";
+    }
+
+    .btn-primary:hover {
+        background: #5a32a3 !important;
+        transform: translateY(-2px);
+        transition: all 0.3s ease;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">

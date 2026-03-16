@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
- // commentaire enehjerj ejktrkrt trtiof fnfgjgfjfg
 namespace WebApplication1.Services.AI
 {
     public class LlmService

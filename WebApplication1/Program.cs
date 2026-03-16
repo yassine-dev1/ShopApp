@@ -1,10 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
+
+using StackExchange.Redis;
 using WebApplication1.Data;
-using WebApplication1.Services.AI;
+
 using WebApplication1.Services.RedisManagement;
 using WebApplication1.Services.ServiceDAO;
+
+using WebApplication1.Services.AI.Embedding;
+using WebApplication1.Services.AI.InitializationDBV;
+using WebApplication1.Services.AI.LLM;
+using WebApplication1.Services.AI.Reranking;
+using WebApplication1.Services.AI.Retrieval;
+using WebApplication1.Services.AI.SynchronizationDB;
+using WebApplication1.Services.AI.VectorStore;
+using WebApplication1.Services.AI.RagService;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddStackExchangeRedisCache(options =>
@@ -22,8 +34,38 @@ builder.Services.AddScoped<ICartService, CartRedisService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient<LlmService>();
 builder.Services.AddScoped<LlmService>();
-// Dans Program.cs
 builder.Services.AddScoped<ProduitDAO>();
+
+
+//// ********************************   Rag systeme build Interfaces ***********************************
+
+builder.Services.AddHttpClient<IEmbeddingService, EmbeddingService>();
+
+// builder vectore store
+builder.Services.AddSingleton<IConnectionMultiplexer>(
+    ConnectionMultiplexer.Connect("localhost:6379"));
+builder.Services.AddSingleton<IVectorStore, RedisVectorStore>();
+
+// builder Initialiser Vectoriel DB
+builder.Services.AddScoped<IVectorDbInitializer, VectorDbInitializer>();
+
+// builder SynchronizationDB
+builder.Services.AddScoped<IAIIndexingService, AIIndexingService>();
+
+// builder Product Service
+builder.Services.AddScoped<IRetrievalService, ProductRetrievalService>();
+
+// builder IRerankerService
+builder.Services.AddScoped<IRerankerService, RerankerService>();
+
+// build ILlmService
+builder.Services.AddScoped<ILlmService, LlmService>();
+
+// build orghestration 
+builder.Services.AddScoped<IOrchestratorRagService, OrchestratorRagService>();
+
+// ************************************************************************************************************
+
 
 var app = builder.Build();
 
@@ -31,8 +73,18 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+
+// Initialise vectoriel DB of product catalogue
+using (var scope = app.Services.CreateScope())
+{
+    var initializer = scope.ServiceProvider
+        .GetRequiredService<IVectorDbInitializer>();
+
+    await initializer.InitializeAsync();
 }
 
 app.UseHttpsRedirection();
@@ -42,6 +94,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
 app.MapRazorPages()
    .WithStaticAssets();
 

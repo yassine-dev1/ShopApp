@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using WebApplication1.Data;
 using WebApplication1.Models;
 using WebApplication1.Services.AI;
+using WebApplication1.Services.AI.RagService;
 using WebApplication1.Services.RedisManagement;
 using WebApplication1.Services.ServiceDAO;
 using static WebApplication1.Pages.ChatAI.IndexModel;
@@ -17,17 +18,17 @@ namespace  WebApplication1.Pages.ProductClient
         private readonly WebApplication1Context _context;
         private readonly ICartService _cartService;
         private readonly ProduitDAO _ProductService;
-        private readonly LlmService _llm;
+        private readonly IOrchestratorRagService _RagService;
 
         public IndexModel(   WebApplication1Context context,
                              ICartService cartService,
                              ProduitDAO productService ,
-                             LlmService llmService  )      
+                             IOrchestratorRagService orchestratorRag )      
         {
             _context = context;
             _cartService = cartService;
             _ProductService = productService;
-            _llm = llmService;
+            _RagService = orchestratorRag;
         }
 
 
@@ -82,7 +83,7 @@ namespace  WebApplication1.Pages.ProductClient
             Dictionary<int, CartItemCache> cartItems = await _cartService.GetCartAsync();
 
             // Appel RAG : LlmService gère la récupération des produits similaires et la construction du prompt
-            var raw = await _llm.AskWithRetrievalAsync(Question, cartItems, products, topK: 10);
+            var raw = await _RagService.AskAsync(Question);
 
             // Extraire la partie visible (lisible) et le JSON structuré (si présent)
             var (visible, structured) = ExtractVisibleAndStructuredJson(raw);

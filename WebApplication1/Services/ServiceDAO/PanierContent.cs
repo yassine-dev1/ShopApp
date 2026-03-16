@@ -2,7 +2,6 @@
 using WebApplication1.Models;
 using WebApplication1.Module;
 
-// commentaire
 namespace WebApplication1.Services.ServiceDAO
 {
     public class PanierContent

@@ -3,7 +3,6 @@ using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
 using WebApplication1.Data;
 using WebApplication1.Models;
-// commentaire
 
 namespace WebApplication1.Services.RedisManagement
 {

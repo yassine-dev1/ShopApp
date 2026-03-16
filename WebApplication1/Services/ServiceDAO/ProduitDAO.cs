@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 using WebApplication1.Models;
-// commnentairegit status
 
 namespace WebApplication1.Services.ServiceDAO
 {
@@ -18,7 +17,7 @@ namespace WebApplication1.Services.ServiceDAO
 
         public async  Task<List<Product>> GetAllProduitsAsync()
         {
-            return await _context.Product.ToListAsync();
+            return await _context.Product.Include(p => p.Category).ToListAsync();
         }
 
         public async Task<Product?> GetProduitByIdAsync(int id)
@@ -52,6 +51,7 @@ namespace WebApplication1.Services.ServiceDAO
         {
             return await _context.Product
                 .Where(p => p.Name.Contains(searchTerm) || p.Description.Contains(searchTerm))
+                .Include(p => p.Category)
                 .ToListAsync();
         }
 

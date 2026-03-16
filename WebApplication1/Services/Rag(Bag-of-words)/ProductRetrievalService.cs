@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WebApplication1.Models;
 
-// commentaire for foce pushing
+
 namespace WebApplication1.Services.AI
 {
     /// <summary>

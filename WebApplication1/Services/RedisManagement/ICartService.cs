@@ -1,6 +1,5 @@
 ﻿using WebApplication1.Models;
 
-// commentaire
 namespace WebApplication1.Services.RedisManagement
 {
     public interface ICartService

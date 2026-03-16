@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-// commentaire for foce pushing
 namespace WebApplication1.Services.AI
 {
     public static class PromptContext
