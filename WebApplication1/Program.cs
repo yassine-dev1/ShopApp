@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
+<<<<<<< HEAD
 
 using StackExchange.Redis;
 using WebApplication1.Data;
@@ -18,6 +19,13 @@ using WebApplication1.Services.AI.VectorStore;
 using WebApplication1.Services.AI.RagService;
 
 
+=======
+using WebApplication1.Data;
+using WebApplication1.Services.AI;
+using WebApplication1.Services.RedisManagement;
+using WebApplication1.Services.ServiceDAO;
+
+>>>>>>> b218cbdaaaed9a106850a8e85846553864058608
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddStackExchangeRedisCache(options =>
 {
@@ -34,6 +42,7 @@ builder.Services.AddScoped<ICartService, CartRedisService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient<LlmService>();
 builder.Services.AddScoped<LlmService>();
+<<<<<<< HEAD
 builder.Services.AddScoped<ProduitDAO>();
 
 
@@ -67,17 +76,26 @@ builder.Services.AddScoped<IOrchestratorRagService, OrchestratorRagService>();
 // ************************************************************************************************************
 
 
+=======
+// Dans Program.cs
+builder.Services.AddScoped<ProduitDAO>();
+
+>>>>>>> b218cbdaaaed9a106850a8e85846553864058608
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
+<<<<<<< HEAD
 
+=======
+>>>>>>> b218cbdaaaed9a106850a8e85846553864058608
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
+<<<<<<< HEAD
 // Initialise vectoriel DB of product catalogue
 using (var scope = app.Services.CreateScope())
 {
@@ -87,6 +105,8 @@ using (var scope = app.Services.CreateScope())
     await initializer.InitializeAsync();
 }
 
+=======
+>>>>>>> b218cbdaaaed9a106850a8e85846553864058608
 app.UseHttpsRedirection();
 
 app.UseRouting();
@@ -94,7 +114,10 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+<<<<<<< HEAD
 
+=======
+>>>>>>> b218cbdaaaed9a106850a8e85846553864058608
 app.MapRazorPages()
    .WithStaticAssets();
 

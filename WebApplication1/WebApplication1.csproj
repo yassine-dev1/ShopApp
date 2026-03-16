@@ -39,10 +39,15 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.0" />
+<<<<<<< HEAD
     <PackageReference Include="NRedisStack" Version="1.3.0" />
     <PackageReference Include="OpenAI" Version="2.8.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.10.1" />
     <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
+=======
+    <PackageReference Include="OpenAI" Version="2.8.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.10.1" />
+>>>>>>> b218cbdaaaed9a106850a8e85846553864058608
   </ItemGroup>
 
 </Project>

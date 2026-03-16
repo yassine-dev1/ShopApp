@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 using WebApplication1.Models;
+<<<<<<< HEAD
+=======
+// commnentairegit status
+>>>>>>> b218cbdaaaed9a106850a8e85846553864058608
 
 namespace WebApplication1.Services.ServiceDAO
 {
@@ -17,7 +21,11 @@ namespace WebApplication1.Services.ServiceDAO
 
         public async  Task<List<Product>> GetAllProduitsAsync()
         {
+<<<<<<< HEAD
             return await _context.Product.Include(p => p.Category).ToListAsync();
+=======
+            return await _context.Product.ToListAsync();
+>>>>>>> b218cbdaaaed9a106850a8e85846553864058608
         }
 
         public async Task<Product?> GetProduitByIdAsync(int id)
@@ -51,7 +59,10 @@ namespace WebApplication1.Services.ServiceDAO
         {
             return await _context.Product
                 .Where(p => p.Name.Contains(searchTerm) || p.Description.Contains(searchTerm))
+<<<<<<< HEAD
                 .Include(p => p.Category)
+=======
+>>>>>>> b218cbdaaaed9a106850a8e85846553864058608
                 .ToListAsync();
         }
 

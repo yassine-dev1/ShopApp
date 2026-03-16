@@ -28,7 +28,11 @@ namespace WebApplication1.Pages.ProductClient
                 return NotFound();
             }
 
+<<<<<<< HEAD
             var product = await _context.Product.Include(p => p.Category).FirstOrDefaultAsync(m => m.Id == id);
+=======
+            var product = await _context.Product.FirstOrDefaultAsync(m => m.Id == id);
+>>>>>>> b218cbdaaaed9a106850a8e85846553864058608
 
             if (product is not null)
             {
